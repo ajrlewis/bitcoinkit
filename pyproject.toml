@@ -1,0 +1,15 @@
+[project]
+name = "bitcoinkit"
+version = "0.1.0"
+description = "A collection of Bitcoin utilities."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "ajrlewis", email = "hello@ajrlewis.com" }
+]
+dependencies = [
+    "requests=2.31.0",
+]
+
+[tool.setuptools]
+packages = ["bitcoinkit"]
