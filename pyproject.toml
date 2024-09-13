@@ -1,0 +1,42 @@
+[build-system]
+requires = [
+    "setuptools>=60",
+    "setuptools-scm>=8.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bitcoinkit"
+version = "0.2.0"
+description = "A collection of Bitcoin utilities."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "ajrlewis", email = "hello@ajrlewis.com" }
+]
+dependencies = [
+    "beautifulsoup4==4.12.3",
+    "certifi==2024.8.30",
+    "charset-normalizer==3.3.2",
+    "idna==3.8",
+    "loguru==0.7.2",
+    "lxml==4.9.4",
+    "numpy==2.0.2",
+    "pandas==2.2.2",
+    "python-dateutil==2.9.0.post0",
+    "pytz==2024.1",
+    "requests==2.32.3",
+    "requests-futures==1.0.1",
+    "six==1.16.0",
+    "soupsieve==2.6",
+    "tqdm==4.66.5",
+    "tzdata==2024.1",
+    "urllib3==2.2.2",
+    "yahooquery==2.3.7",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
