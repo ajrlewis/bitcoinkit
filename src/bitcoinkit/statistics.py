@@ -17,13 +17,14 @@ def aggregate(bitcoin_address: str, currency: str) -> dict:
         logger.debug(f"{transaction = }")
 
         # Get conversion ratio from BTC to fiat at time of transaction
-        fiat_to_btc = price.historical(
+        df_fiat_to_btc = price.historical(
             timestamp=transaction["timestamp"], currency=currency
         )
-        logger.debug(f"{fiat_to_btc = }")
+        fiat_to_btc = df_fiat_to_btc.iloc[0][currency]
 
         # Get conversion ratio from BTC to fiat now
-        fiat_to_btc_now = price.current(currency=currency)
+        df_fiat_to_btc_now = price.current(currency=currency)
+        fiat_to_btc_now = df_fiat_to_btc_now.iloc[0][currency]
         logger.debug(f"{fiat_to_btc_now = }")
 
         # Convert satoshis into bitcoins
