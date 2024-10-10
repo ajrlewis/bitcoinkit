@@ -7,6 +7,31 @@ from bitcoinkit.vendor.mempool import address, price
 from bitcoinkit import utils
 
 
+def profit_and_loss(total_bitcoins: float, total_currency: float, currency: str):
+    # Get the current total currency
+    df_price = price.current(currency=currency)
+    current_bitcoin_price = df_price.iloc[0][currency]
+    logger.debug(f"{current_bitcoin_price = }")
+    total_currency_now = float(total_bitcoins * current_bitcoin_price)
+
+    # Compute the profit and loss
+    pnl = total_currency_now - total_currency
+    pnl_percent = pnl / total_currency * 100.0
+    gain_sign = "+" if pnl > 0.0 else "-"
+
+    # Log data
+    total_satoshis = utils.bitcoins_to_satoshis(total_bitcoins)
+    total_bitcoins_str = utils.to_string(total_satoshis)
+    logger.debug(
+        f"{total_bitcoins_str} for {total_currency:,.2f} {currency} -> {total_currency_now:,.2f} {currency}"
+    )
+    logger.debug(
+        f"{gain_sign}{abs(pnl):,.2f} {currency} [{gain_sign}{round(abs(pnl_percent))}%]"
+    )
+
+    return {"pnl": round(pnl, 2), "pnl_percent": round(pnl_percent)}
+
+
 def aggregate(bitcoin_address: str, currency: str) -> dict:
     # Get all transaction details for a given Bitcoin address
     transactions = address.transaction_details(bitcoin_address)
