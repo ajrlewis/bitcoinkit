@@ -11,7 +11,7 @@ import requests
 base_url = "https://mempool.space/api/v1/blocks/"
 
 
-def get_block_data():
+def get_latest_block_data():
     block_data = {}
     try:
         response = requests.get(base_url)
