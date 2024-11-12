@@ -15,7 +15,7 @@ currencies = ["USD", "EUR", "GBP", "CAD", "CHF", "AUD", "JPY"]
 timestamp_format = "%Y-%m-%d %H:%M:%S"
 
 
-def current(currency: str = "USD"):
+def current(currency: str = "USD") -> float:
     # Get the current Unix timestamp
     now = time.time()
     logger.debug(f"{now = }")
@@ -23,9 +23,16 @@ def current(currency: str = "USD"):
     timestamp = datetime.datetime.utcfromtimestamp(now).strftime(timestamp_format)
     logger.debug(f"{timestamp = }")
     # Get the price at the current time
-    price = historical(timestamp, currency=currency)
+    df = historical(timestamp, currency=currency)
+    price = df.iloc[0][currency]
     logger.debug(f"{price = }")
     return price
+
+
+def current_sats_per_currency(currency: str = "USD") -> int:
+    price_in_currency = current(currency=currency)
+    sats_per_currency = int(np.floor(100_000_000 / price_in_currency))
+    return sats_per_currency
 
 
 def historical(
@@ -76,9 +83,8 @@ def historical(
 
     try:
         data = response.json()
-        # logger.debug(f"{data = }")
         prices = data["prices"]
-        logger.debug(f"{len(prices) = }")
+        logger.debug(f"{(prices) = }")
         df = pd.DataFrame(prices)
         logger.debug(f"{df = }")
     except Exception as e:
@@ -90,11 +96,13 @@ def historical(
 
 def main():
     # timestamp = "2021-04-19 10:07:10"
-    timestamp = None
+    # timestamp = None
     currency = "USD"
-    df = historical(timestamp=timestamp, currency=currency)
-    print()
-    print(df)
+    # df = historical(timestamp=timestamp, currency=currency)
+    # print()
+    # print(df)
+    sats_per_currency = current_sats_per_currency(currency=currency)
+    print(f"{sats_per_currency = }")
 
 
 if __name__ == "__main__":
