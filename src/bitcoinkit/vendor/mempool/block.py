@@ -22,7 +22,7 @@ def get_latest_block_data():
     data = response.json()
     if data and len(data) > 1:
         data = data[0]  # latest block
-        logger.debug(f"{data = }")
+        # logger.debug(f"{data = }")
         block_data = {}
         block_data["block_id"] = data.get("id")
         block_data["block_height"] = data.get("height")
@@ -31,5 +31,5 @@ def get_latest_block_data():
         block_data["block_difficulty"] = data.get("difficulty")
         block_data["block_tx_count"] = data.get("tx_count")
         block_data["block_mediantime"] = data.get("mediantime")
-        logger.debug(f"{block_data = }")
+        # logger.debug(f"{block_data = }")
         return block_data
